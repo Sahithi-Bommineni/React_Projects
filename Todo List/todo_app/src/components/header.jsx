@@ -1,12 +1,12 @@
+import AddList from './addlist.jsx'
+
 function Header(){
     return(
-        <div>
-             <header class="header">
+        <div className="head">
+             <header className="header">
                 <h1>My ToDo App</h1>
             </header>
-            <div class="welcome">
-                <p>Welcome to my todo app</p>
-            </div>
+            <AddList/>
         </div>
            
     );

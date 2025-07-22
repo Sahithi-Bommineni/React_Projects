@@ -1,19 +1,29 @@
 :root{
   align-items: center;
-  background-color: #BCD4E6;
+  background-color: #d4a39c;
 }
-
+.head{
+  height:25%;
+  width:50%;
+  margin: 3% 25% 1%;
+}
 .header{
-  margin: 20px 80px;
+  background-color: #F0E4D3;
 }
 h1{
-  background-color: aqua;
   text-align: center;
-}
-.welcome{
-  text-align: center;
+  color: #D9A299;
+  padding: 1%;
 }
 .todolists{
-  text-align: center;
+  height:75%;
+  width: 45%;
+  margin: 0 28%;
+  background-color: #DCC5B2;
   padding: 20px;
+  list-style-type: none;
+}
+li{
+  font-size: 24px;
+  padding: 2%;
 }
