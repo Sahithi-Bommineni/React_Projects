@@ -5,6 +5,7 @@ function Header(){
         <div className="head">
              <header className="header">
                 <h1>My ToDo App</h1>
+                <p>Stay organized and productive</p>
             </header>
             <AddList/>
         </div>
