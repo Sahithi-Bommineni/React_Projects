@@ -7,7 +7,6 @@ function Header(){
                 <h1>My ToDo App</h1>
                 <p>Stay organized and productive</p>
             </header>
-            <AddList/>
         </div>
            
     );

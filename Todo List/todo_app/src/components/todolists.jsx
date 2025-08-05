@@ -1,30 +1,99 @@
-function Todolists(){
-    return(
-        <div className="tasks-container">
-            <div className="stats" id="stats">
-                <div className="stat-item">
-                    <span className="stat-number" id="totalTasks">0</span>
-                    <span className="stat-label">Total</span>
-                </div>
-                <div className="stat-item">
-                    <span className="stat-number" id="completedTasks">0</span>
-                    <span className="stat-label">Completed</span>
-                </div>
-                <div className="stat-item">
-                    <span className="stat-number" id="pendingTasks">0</span>
-                    <span className="stat-label">Pending</span>
-                </div>
-            </div>
-            <div id="tasksList">
-                <div className="empty-state" id="emptyState">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.1 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
-                    </svg>
-                    <h3>No tasks yet</h3>
-                    <p>Add a task above to get started!</p>
-                </div>
-            </div>
-        </div>
-    );
+import { useState} from "react";
+
+function Todolists({ task, onToggle, onDelete, onEdit }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editText, setEditText] = useState(task.text);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleSaveEdit = () => {
+    onEdit(task.id, editText);
+    setIsEditing(false);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSaveEdit();
+    }
+    if (e.key === 'Escape') {
+      setEditText(task.text);
+      setIsEditing(false);
+    }
+  };
+
+  return (
+    <div
+      className={`rounded-2xl p-5 mb-4 flex items-center gap-4 transition-all duration-300 border-2 ${task.completed ? 'opacity-80' : ''}`}
+      style={{
+        backgroundColor: '#F0E4D3',
+        borderColor: isHovered ? '#DCC5B2' : 'transparent',
+        transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
+        boxShadow: isHovered ? '0 5px 15px rgba(0, 0, 0, 0.1)' : 'none'
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Checkbox */}
+      <div className="task-checkbox-container">
+        <input type="checkbox" checked={task.completed} onChange={() => onToggle(task.id)} className="task-checkbox"/>
+        {task.completed && (
+          <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-bold text-sm pointer-events-none">
+            ✓
+          </span>
+        )}
+      </div>
+
+      {/* Task Text */}
+      {isEditing ? (
+        <input
+          type="text"
+          value={editText}
+          onChange={(e) => setEditText(e.target.value)}
+          onBlur={handleSaveEdit}
+          onKeyDown={handleKeyPress}
+          className="flex-1 text-lg bg-transparent border-none outline-none font-inherit px-3 py-2 rounded-lg"
+          style={{
+            backgroundColor: '#FAF7F3',
+            color: '#5a4a3a'
+          }}
+          autoFocus
+        />
+      ) : (
+        <span
+          className={`flex-1 text-lg transition-all duration-300 ${task.completed ? 'line-through opacity-60' : ''}`}
+          style={{ color: '#5a4a3a' }}
+        >
+          {task.text}
+        </span>
+      )}
+
+      {/* Action Buttons */}
+      <div className={`flex gap-3 transition-opacity duration-300 ${isHovered || window.innerWidth <= 768 ? 'opacity-100' : 'opacity-0'}`}>
+        <button
+          onClick={handleEdit}
+          className="w-10 h-10 border-none rounded-full cursor-pointer text-base transition-all duration-300 flex items-center justify-center hover:scale-110"
+          style={{ backgroundColor: '#DCC5B2', color: 'white' }}
+          onMouseEnter={(e) => e.target.style.backgroundColor = '#D9A299'}
+          onMouseLeave={(e) => e.target.style.backgroundColor = '#DCC5B2'}
+          title="Edit"
+        >
+          ✏️
+        </button>
+        <button
+          onClick={() => onDelete(task.id)}
+          className="w-10 h-10 border-none rounded-full cursor-pointer text-base transition-all duration-300 flex items-center justify-center hover:scale-110"
+          style={{ backgroundColor: '#e74c3c', color: 'white' }}
+          onMouseEnter={(e) => e.target.style.backgroundColor = '#c0392b'}
+          onMouseLeave={(e) => e.target.style.backgroundColor = '#e74c3c'}
+          title="Delete"
+        >
+          🗑️
+        </button>
+      </div>
+    </div>
+  );
 }
 export default Todolists;
