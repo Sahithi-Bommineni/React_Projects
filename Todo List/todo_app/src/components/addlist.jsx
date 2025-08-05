@@ -9,18 +9,16 @@ function AddList(){
     const handleAdd = (e) => {
         if (e) e.preventDefault();
         if(input.trim()!==""){
-            setTaskIdCounter(prevId=> {
-                const newId = prevId + 1
-                const newTask = {
-                id: newId,
-                text: input.trim(),
-                completed: false
-            };
-            setTasks(prevTasks => [...prevTasks, newTask]);
-            setTaskInput('');
-            return newId;
-            });   
-        }      
+            const newId = taskIdCounter + 1;
+            const newTask = {
+            id: newId,
+            text: input.trim(),
+            completed: false
+        };
+        setTasks(prevTasks => [...prevTasks, newTask]);
+        setTaskInput('');
+        setTaskIdCounter(newId);
+        }         
     };
 
     const toggleTask = (id) => {
